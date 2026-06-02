@@ -111,6 +111,80 @@ flowchart LR
   FoxBridge["savd_foxglove_bridge"] --> FoxStudio["savd_foxglove_studio"]
 ```
 
+## 3.1 不要按容器名硬背，要按链路读
+
+新人最容易卡住的地方，是看到十几个容器以后不知道谁和谁有关系。读这个项目时，先记住三条闭环。
+
+第一条是运动控制闭环：
+
+```text
+GUI 或手柄
+  -> savd_api / savd_teleop
+  -> savd_manop 或 savd_wpo
+  -> savd_syscontrol 按当前 mode 选择唯一有效 drive topic
+  -> savd_vehicle
+  -> vesc_ackermann
+  -> vesc_driver
+  -> VESC 硬件
+```
+
+这里最关键的是 `savd_syscontrol`。`savd_manop` 和 `savd_wpo` 都可以发驾驶命令，但 `savd_vehicle` 不直接听它们。`savd_vehicle` 只听 `/savd_syscontrol/drive_cmds`。所以调车不动时，不能只看手动或 waypoint 节点有没有发消息，还要看当前 mode 有没有允许这条 drive topic。
+
+第二条是车体状态闭环：
+
+```text
+VESC / ESP32
+  -> vesc_driver / savd_micro_ros_agent
+  -> savd_vehicle
+  -> /savd_vehicle/odom, /savd_vehicle/parameters, /savd_vehicle/battery_state
+  -> savd_api
+  -> savd_gui
+```
+
+GUI 里看到的速度、电池、gear、diff、fan、VESC/ESP32 连接状态，主要都不是前端自己算的，而是 `savd_vehicle` 整理后经 API 返回。
+
+第三条是媒体和观测闭环：
+
+```text
+ZED camera
+  -> savd_zed_gstreamer
+  -> savd_mediamtx
+  -> savd_gui camera iframe
+
+ROS2 graph
+  -> savd_diagnostics / savd_foxglove_bridge
+  -> savd_api / savd_foxglove_studio
+```
+
+摄像头链路和运动控制链路基本独立。摄像头坏了会影响 GUI 显示和 diagnostics，但不等于手动驾驶链路一定坏。反过来，VESC 能动也不代表摄像头一定正常。
+
+## 3.2 开发时先问“谁拥有这个功能”
+
+定位修改点时，按下面这张表找，不要从所有容器里乱搜。
+
+| 要改或要查的问题 | 先看哪个容器 | 关键源码或配置 |
+| --- | --- | --- |
+| 有哪些 mode、哪些 mode 能互相切换 | `savd_sysmode` | `resources/statemachine.xml`、`sysmode.hpp` |
+| 当前 mode 允许哪个驾驶源控制车 | `savd_syscontrol` | `syscontrol.hpp`、mode metadata 里的 `drive_topic` |
+| GUI 摇杆为什么没效果 | `savd_gui`、`savd_api`、`savd_manop`、`savd_syscontrol` | `Dashboard.tsx`、`main.py`、`manop.hpp`、`statemachine.xml` |
+| 实体手柄为什么没效果 | `savd_teleop`、`savd_manop` | `/dev/input/js0`、`savd_teleop.launch.py`、`manop.hpp` |
+| waypoint 怎么执行 | `savd_api`、`savd_wpo`、`savd_syscontrol` | `wpo_action_client.py`、`wpo_action_server.hpp`、`pure_pursuit.hpp` |
+| 速度/曲率怎么变成电机和转向 | `savd_vehicle`、`vesc_ackermann` | `savd.hpp`、`ackermann_to_vesc.cpp` |
+| VESC 串口怎么通信 | `vesc_driver` | `vesc_driver.cpp`、`vesc_config.yaml` |
+| gear、diff、fan 怎么到 ESP32 | `savd_vehicle`、`savd_micro_ros_agent`、ESP32 固件 | `savd.hpp`、`SAVDCommand.msg`、ESP32 固件仓库 |
+| GUI 上车辆参数从哪来 | `savd_vehicle`、`savd_api`、`savd_gui` | `/savd_vehicle/parameters`、`main.py`、`ESP32Control.tsx` |
+| diagnostics 为什么报错 | `savd_diagnostics` 和对应子系统 | `diagnostics.yaml`、各容器 updater |
+| 摄像头为什么不显示 | `savd_zed_gstreamer`、`savd_mediamtx`、`savd_gui` | ZED GStreamer 启动命令、`mediamtx.yml`、`Cameras.tsx` |
+
+一个实用判断：
+
+```text
+如果是“能不能控制车”的问题，先看 mode 和 syscontrol。
+如果是“命令如何变成硬件动作”的问题，先看 savd_vehicle、vesc_ackermann、vesc_driver。
+如果是“GUI 为什么显示不对”的问题，先看 API 是否有数据，再看前端。
+如果是“摄像头/GPS/diagnostics”的问题，先按各自链路查，不要直接怀疑运动控制链路。
+```
+
 ## 4. 安全边界
 
 下面这些接口会影响真实车体，不能随手测：

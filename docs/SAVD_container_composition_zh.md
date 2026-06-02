@@ -910,11 +910,7 @@ ros2 launch ublox_gps ublox_gps_node-launch.py
 
 当前实际情况：
 
-源码 launch 里创建了 `ublox_gps_node` 对象，但 return list 中把它注释掉了：
-
-```text
-# ublox_gps_node,
-```
+源码 launch 里创建了 `ublox_gps_node` 对象，但 return list 中把它注释掉了。文件里能看到被注释的 `ublox_gps_node,` 条目。
 
 当前 `docker top` 只看到两个 static transform：
 
@@ -1497,4 +1493,3 @@ ROS2 graph -> foxglove_bridge -> foxglove_studio
 - 硬件接口核心是 `vesc_driver`、`vesc_ackermann`、`savd_micro_ros_agent`。
 - GUI 只负责显示和发 API 请求，不直接碰硬件。
 - 后摄像头、GPS、JetsonStats、实体手柄是当前需要继续排查的重点。
-

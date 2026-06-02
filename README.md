@@ -6,18 +6,21 @@ The documentation is based on a read-only live inspection of the vehicle at `172
 
 ## Documents
 
-- [中文：SAVD 小车容器、源码与开发指南](docs/SAVD_onboarding_and_test_guide_zh.md)
-- [中文：SAVD 小车容器组成与源码职责说明](docs/SAVD_container_composition_zh.md)
-- [English: SAVD Vehicle Container Composition and Source Responsibilities](docs/SAVD_container_composition_en.md)
-- [Root copy: SAVD 小车容器、源码与开发指南](SAVD_onboarding_and_test_guide.md)
+- [Default English onboarding guide: SAVD Vehicle Container, Source, and Development Guide](SAVD_onboarding_and_test_guide.md)
+- [中文辅助版：SAVD 小车容器、源码与开发指南](docs/SAVD_onboarding_and_test_guide_zh.md)
+- [English container reference snapshot](docs/SAVD_container_composition_en.md)
+- [中文容器组成参考快照](docs/SAVD_container_composition_zh.md)
 - [Original Chinese analysis baseline](SAVD_container_analysis.md)
 
 ## Scope
 
+The default onboarding guide is organized by runtime flow first, then by container source reference. It is meant to let a new developer understand how GUI requests, ROS2 modes, command arbitration, vehicle abstraction, VESC, ESP32, cameras, GPS, diagnostics, and Foxglove fit together before reading individual container code.
+
 The main documents explain:
 
 - Current Docker Compose stack and container inventory.
-- Runtime image, command, mount, and status of each container.
+- Runtime relationships between containers.
+- Runtime image, command, mount, and status of each main service.
 - Source-code paths inside each container.
 - ROS2 nodes, topics, services, and actions owned by each container.
 - GUI-to-API-to-ROS2 control flow.

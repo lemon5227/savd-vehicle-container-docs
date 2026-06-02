@@ -911,11 +911,7 @@ Expected role:
 
 Current actual behavior:
 
-The launch file creates an `ublox_gps_node` object, but it is commented out in the returned launch description:
-
-```text
-# ublox_gps_node,
-```
+The launch file creates an `ublox_gps_node` object, but it is commented out in the returned launch description. In the file this appears as a commented `ublox_gps_node,` entry.
 
 `docker top` currently shows only two static transform publishers:
 
@@ -1496,4 +1492,3 @@ Most important facts:
 - The core hardware-interface containers are `vesc_driver`, `vesc_ackermann`, and `savd_micro_ros_agent`.
 - The GUI displays state and sends API requests; it does not directly control hardware.
 - Rear camera, GPS, JetsonStats, and physical joystick are the main current follow-up areas.
-
