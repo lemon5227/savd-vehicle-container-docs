@@ -280,7 +280,39 @@ For future reproduction, the exact Docker network mode used on the LAN Linux mac
 | Control and safety | Easier to filter and expose only selected services. | More direct access to the ROS2 graph, so it needs careful network and access control. |
 | Best use | Remote access, SDV wrapper, simple client integration. | Local ROS2 development, debugging, or controlled lab networks. |
 
-## 9. Conclusion
+## 9. SDV Wrapper and Common API Idea
+
+My current understanding is that the HTTP bridge can be used as a wrapper layer for the SDV side. This does not replace ROS2. ROS2 can still run inside the truck and use its own discovery mechanism between ROS2 nodes.
+
+The wrapper layer would hide some ROS2 details from remote clients:
+
+```text
+ROS2 topics, services, and actions inside the truck
+  -> wrapper layer / HTTP API / SDV service layer
+  -> common API for remote clients
+```
+
+With this wrapper layer, different ROS2 modules could be exposed in a similar way. For example, instead of asking the remote client to know every ROS2 topic name, message type, QoS setting, or DDS network detail, the SDV layer could provide common operations such as:
+
+```text
+GET /services
+GET /services/{id}/info
+POST /services/{id}/subscribe
+PATCH /subscriptions/{id}
+DELETE /subscriptions/{id}
+GET /subscriptions/{id}/latest
+```
+
+In this model, ROS2 discovery and SDV discovery are not exactly the same thing:
+
+- ROS2 discovery is internal to the truck ROS2 graph. It discovers ROS2 nodes, topics, services, and actions.
+- SDV discovery would be an external service catalog. It would tell a remote client which selected vehicle services are available and how to access them through a common API.
+
+For example, if a new ROS2 module is added to the truck, the wrapper could discover it or be configured to expose it. Then the SDV side could update its service list through a `get_info` or `GET /services` endpoint. Remote clients would then subscribe, update, unsubscribe, or read the latest value through the common API instead of directly handling ROS2 details.
+
+This could make remote access easier and more stable, especially outside a simple local network. It would also allow only selected safe services to be exposed, instead of exposing the whole ROS2 graph directly.
+
+## 10. Conclusion
 
 The tests show that the HTTP API bridge is currently the easier and more robust method for remote access. It worked from the laptop over Tailscale and even worked from inside the ROS2 client container on the laptop.
 
