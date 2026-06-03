@@ -6,6 +6,8 @@
 主机名：`GTW-ONX1-E1A4T4E1`  
 系统：Ubuntu 22.04.5 LTS, Jetson/aarch64, Docker 28.0.4
 
+AI 辅助说明：本文档基于小车实时检查记录、命令输出和源码阅读整理，中文表述、结构和解释部分由 OpenAI Codex 辅助润色。
+
 ## 1. 检查范围
 
 这份文档是对小车当前 Docker/ROS2 系统的只读分析，主要看了：
@@ -1239,4 +1241,3 @@ JetsonStats：
 | `savd_mediamtx` | 把 ZED RTSP 转发成 RTSP/HLS/WebRTC 给 GUI 看。 |
 | `savd_jetson_stats` | Jetson 状态诊断容器，当前已退出。 |
 | `savd_gui-savd_gui-1` | 另一个旧/备用 GUI 容器，当前只是 created，主系统不用它。 |
-

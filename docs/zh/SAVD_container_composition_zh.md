@@ -7,6 +7,8 @@
 系统：Ubuntu 22.04.5 LTS, NVIDIA Jetson, aarch64  
 Docker：28.0.4  
 
+AI 辅助说明：本文档基于小车实时检查记录、命令输出和源码阅读整理，中文表述、结构和解释部分由 OpenAI Codex 辅助润色。
+
 > 本文档不包含 SSH 密码。凭据应由实验室单独提供，不应提交到 GitHub。
 
 ## 1. 文档目标

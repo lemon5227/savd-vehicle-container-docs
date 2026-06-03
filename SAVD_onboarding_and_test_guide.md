@@ -6,6 +6,8 @@
 - Observed OS: Ubuntu 22.04.5 LTS, NVIDIA Jetson, `aarch64`
 - Observed Docker version: 28.0.4
 
+AI assistance note: this guide is based on live vehicle inspection notes and command outputs. The English wording, organization, and explanations were polished with help from OpenAI Codex.
+
 Main directories on the vehicle:
 
 ```text
