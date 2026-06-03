@@ -1,12 +1,12 @@
 # SAVD Vehicle Container, Source, and Development Guide
 
+AI assistance note: this guide is based on live vehicle inspection notes and command outputs. The English wording, organization, and explanations were polished with help from OpenAI Codex.
+
 - Inspection date: 2026-06-02
 - Vehicle host: `172.21.16.162`
 - Observed hostname: `GTW-ONX1-E1A4T4E1`
 - Observed OS: Ubuntu 22.04.5 LTS, NVIDIA Jetson, `aarch64`
 - Observed Docker version: 28.0.4
-
-AI assistance note: this guide is based on live vehicle inspection notes and command outputs. The English wording, organization, and explanations were polished with help from OpenAI Codex.
 
 Main directories on the vehicle:
 

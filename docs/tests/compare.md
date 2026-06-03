@@ -1,13 +1,11 @@
 # Remote Access Comparison: HTTP API Bridge vs Direct ROS2 Subscription
 
+AI assistance note: the raw commands, screenshots, and observations were written by Wenbo Yan in `compare_raw_test_notes.md`. This report is a cleaned-up English version based on those raw notes, with wording and structure polished with help from OpenAI Codex.
+
 Date: 2026-06-03  
 Raw notes: `compare_raw_test_notes.md`  
 Truck API address used in the test: `http://100.102.142.126:8000`  
 ROS2 client image: `ros:humble-ros-base-jammy`
-
-## AI-Assisted Writing Note
-
-The raw commands, screenshots, and observations were written by Wenbo Yan in `compare_raw_test_notes.md`. This report is a cleaned-up English version based on those raw notes, with wording and structure polished with help from OpenAI Codex.
 
 ## 1. Purpose
 

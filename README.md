@@ -1,8 +1,8 @@
 # SAVD Vehicle Container Documentation
 
-This repository documents the Docker/ROS2 container composition of the SAVD small vehicle test platform.
-
 AI assistance note: the investigation, command outputs, and technical observations were produced from the vehicle inspection work. The documentation wording and structure were organized and polished with help from OpenAI Codex.
+
+This repository documents the Docker/ROS2 container composition of the SAVD small vehicle test platform.
 
 The documentation is based on a read-only live inspection of the vehicle at `172.21.16.162` on 2026-06-02. No remote files were modified, no containers were restarted, and no recovery scripts were executed during the inspection.
 

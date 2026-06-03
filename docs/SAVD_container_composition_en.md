@@ -1,13 +1,13 @@
 # SAVD Vehicle Container Composition and Source Responsibilities
 
+AI assistance note: this document is based on live vehicle inspection notes and command outputs. The English wording, organization, and explanations were polished with help from OpenAI Codex.
+
 Last updated: 2026-06-02  
 Live verification window: around 2026-06-02 11:13-11:18 UTC  
 Vehicle host: `172.21.16.162`  
 Observed hostname: `GTW-ONX1-E1A4T4E1`  
 Observed OS: Ubuntu 22.04.5 LTS, NVIDIA Jetson, aarch64  
 Observed Docker version: 28.0.4  
-
-AI assistance note: this document is based on live vehicle inspection notes and command outputs. The English wording, organization, and explanations were polished with help from OpenAI Codex.
 
 > This document intentionally does not include SSH credentials. Credentials should be distributed separately by the lab and must not be committed to GitHub.
 
